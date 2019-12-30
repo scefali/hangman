@@ -49,4 +49,37 @@ defmodule GameTest do
     assert game.game_state == :won
   end
 
+
+  test "bad guess is recognized" do 
+    game = Game.new_game("wibble")
+    {game, _tally } = Game.make_move(game, "x")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 6
+  end
+
+  test "lost game is recognized" do 
+    game = Game.new_game("wibble")
+    {game, _tally } = Game.make_move(game, "x")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 6
+    {game, _tally } = Game.make_move(game, "r")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 5
+    {game, _tally } = Game.make_move(game, "k")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 4
+    {game, _tally } = Game.make_move(game, "m")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 3
+    {game, _tally } = Game.make_move(game, "u")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 2
+    {game, _tally } = Game.make_move(game, "z")
+    assert game.game_state == :bad_guess
+    assert game.turns_left == 1
+    {game, _tally } = Game.make_move(game, "v")
+    assert game.game_state == :lost
+    assert game.turns_left == 0
+  end
+
 end 
